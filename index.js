@@ -338,6 +338,7 @@ module.exports = function(RED)
 
         //Use the json from Alexa as the base for our msg
         var msg = request.data;
+        msg.from = request.connection.remoteAddress;
 
         //Differentiate between on/off and dimming command. Issue #24
         var isOnOffCommand = (msg.on !== undefined && msg.on !== null) && (msg.bri === undefined || msg.bri === null);
@@ -669,7 +670,7 @@ module.exports = function(RED)
         var key = formatUUID(lightId) + "_bri";
         var value = storage.getItemSync(key);
         if (value === null || value === undefined || value < 0 || value >= 65536) {
-            RED.log.warn("light bri is null in storage");
+            //RED.log.warn("light bri is null in storage");
             return null;
         }
 
